@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    body {
+        overflow: hidden;
+    }
+    .enemy1, .enemy2, .enemy3 {
+        height: 100px;
+        width: 100px;
+        background-color: red;
+        position: absolute;
+        left: 0%;
+        top: 0%;
+        transition: 1s;
+    }
+    .player {
+        height: 50px;
+        width: 50px;
+        background-color: blue;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        box-shadow: 0px 0px 10px rgba(0, 0, 255, 0.7);
+    }
+    .enemies {
+        height: 100%;
+        width: 100%;
+    }
+    .timer {
+        position: absolute;
+        left: 20px;
+        top: 20px;
+        border: solid;
+        padding: 2px 5px 2px 5px;
+        border-radius: 5px;
+        border-width: 1px;
+        border-color: rgb(97, 97, 97);
+        color: greenyellow;
+        font-size: 30px;
+    }
+</style>
+<body>
+    <b class="timer">0</b>
+    <div class="enemies">
+        <div class="enemy1"></div>
+        <div class="enemy2"></div>
+        <div class="enemy3"></div>
+    </div>
+    <div class="player"></div>
+</body>
+<script>
+    const player = document.querySelector(".player");
+    const enemy1 = document.querySelector(".enemy1");
+    const enemy2 = document.querySelector(".enemy2");
+    const enemy3 = document.querySelector(".enemy3");
+    const enemies = document.querySelectorAll(".enemies");
+    const timer = document.querySelector(".timer");
+    let seconds = 0;
+
+    // colliding 
+    function isColliding(a, b) {
+        let r1 = a.getBoundingClientRect();
+        let r2 = b.getBoundingClientRect();
+
+        return !(
+            r1.top > r2.bottom 
+            r1.bottom < r2.top 
+            r1.left > r2.right 
+            r1.right < r2.left
+        );
+    }
+
+    setInterval(function() {
+    if (
+        isColliding(player, enemy1) 
+        isColliding(player, enemy2) ||
+        isColliding(player, enemy3)
+    ) {
+        if(seconds < 5) {
+            alert(Ты щяс серьозно? ${Math.flor(seconds*100)/100} секунд? ебать ты нуб);
+        } else if(seconds >= 5 && seconds < 20) {
+            alert(нуу, ${seconds} секунд норм, можно было и дольше продержаться);
+        } else if(seconds >= 20 && seconds < 45) {
+            alert(молодец, ${seconds} секунд уже что-то);
+        } else if(seconds>= 45 && seconds < 60) {
+            alert(опа, почти минута! попробуй ещё, после минуты будет сюрприз));
+        } else if(seconds >= 60) {
+            alert(молодец, больше минуты! Поздравляю! Теперь ты просрал минуты твоей жизни в пустую!);
+        }
+        location.reload();
+    } else {
+        seconds = Math.floor((seconds + 0.05)*100)/100;
+        timer.textContent = ${seconds}sec;
+    }
+}, 50);
+        
+
+    document.addEventListener("mousemove", function(e) {
+        player.style.left = ${e.clientX - 25}px;
+        player.style.top = ${e.clientY - 25}px;
+    });
+
+    document.addEventListener("thouchmove", function(e) {
+        player.style.left = ${e.clientX - 25}px;
+        player.style.top = ${e.clientY - 25}px;
+    });
+
+    setInterval(function() {
+        // enemy 1
+        enemy1.style.top = ${Math.floor(Math.random() * 100)}%;
+        enemy1.style.left = ${Math.floor(Math.random() * 100)}%;
+        // enemy 2
+        enemy2.style.top = ${Math.floor(Math.random() * 100)}%;
+        enemy2.style.left = ${Math.floor(Math.random() * 100)}%;
+        // enemy 3
+        enemy3.style.top = ${Math.floor(Math.random() * 100)}%;
+        enemy3.style.left = ${Math.floor(Math.random() * 100)}%;
+    }, 1000);
+
+    
+</script>
+  </html>
